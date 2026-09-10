@@ -11,8 +11,9 @@ pre = "alpha.*"
 skip_ci = "[skip ci]"
 skip_untracked = false
 pre_bump_hooks = [
-  "echo 'bumping from {{latest|0.0.0}} to {{version|0.0.1}}'",
-  "perl -pi -e 's/^__version__ = \".*\"$/__version__ = \"{{version}}\"/' src/llm_client/__init__.py",
+    "uv version {{version}} --no-sync",
+    "perl -0pi -e 's/__version__ = \"[^\"]+\"/__version__ = \"{{version}}\"/' src/a5_tool/__init__.py",
+    "git add pyproject.toml uv.lock src/a5_tool/__init__.py",
 ]
 post_bump_hooks = ["git push", "git push origin v{{version}}"]
 
