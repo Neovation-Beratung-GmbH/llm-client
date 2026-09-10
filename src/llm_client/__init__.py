@@ -9,6 +9,9 @@ from ._config import (
     get_default_model_for_provider,
 )
 
+__version__ = "0.1.0"
+__author__ = "Lucas Passadore Elias"
+
 __all__ = [
     "LLMClient",
     "UsageBreakdown",

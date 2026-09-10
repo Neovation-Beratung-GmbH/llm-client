@@ -1,0 +1,21 @@
+[project]
+name = "llm-client"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lucaselias61", email = "lucaspassadorelias@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=1.4.0",
+    "google-genai>=2.22.0",
+    "openai>=1.0.0,<2.0.0",
+]
+
+[project.scripts]
+llm-client = "llm_client:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
