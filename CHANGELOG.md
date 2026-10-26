@@ -8,6 +8,12 @@
 - add CHANGELOG - (90099c1) - lucaselias61
 
 - - -
+## v2.1.1 - 2026-10-26
+#### Bug Fixes
+- correct environment variable name for API key in TypeSafeAIClient - (6a32bc4) - lucaselias61
+
+- - -
+
 ## v2.1.0 - 2026-10-26
 #### Features
 - default temperature and per-query overrides in LLMClient - (1d9224d) - lucaselias61
