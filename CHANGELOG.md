@@ -8,6 +8,14 @@
 - add CHANGELOG - (90099c1) - lucaselias61
 
 - - -
+## v2.1.0 - 2026-10-26
+#### Features
+- default temperature and per-query overrides in LLMClient - (1d9224d) - lucaselias61
+#### Documentation
+- regenerate changelog from commit history - (d3a5a19) - lucaselias61
+
+- - -
+
 
 ## v1.0.0 - 2026-09-10
 #### Bug Fixes
