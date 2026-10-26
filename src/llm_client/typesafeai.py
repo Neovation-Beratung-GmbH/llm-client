@@ -25,8 +25,10 @@ class TypeSafeAIClient(Client):
         state: Content,
         questions: Mapping[str, Question],
         timeout: float | None = None,
+        temperature: float | None = None,
         text_format: type[BaseModel] | None = None,
     ) -> SystemOneResponse:
+        # Accepted for the shared interface; Jev requests do not use temperature.
         response: SystemOneResponse = await self.client.system_one(
             state=state,
             questions=questions,

@@ -361,6 +361,17 @@ class EntrypointTests(unittest.IsolatedAsyncioTestCase):
         await wrapper.aclose()
         sdk.close.assert_awaited_once()
 
+    async def test_temperature_default_and_query_override(self):
+        sdk = NS(responses=NS(parse=AsyncMock(return_value=openai_response())))
+        with patch.object(OpenAIClient, "_build_client", return_value=sdk):
+            wrapper = LLMClient("gpt-4.1-mini", temperature=0.2)
+        await wrapper.query(prompt="hi")
+        self.assertEqual(sdk.responses.parse.call_args.kwargs["temperature"], 0.2)
+        await wrapper.query(prompt="hi", temperature=0.0)
+        self.assertEqual(sdk.responses.parse.call_args.kwargs["temperature"], 0.0)
+        await wrapper.query(prompt="hi")
+        self.assertEqual(sdk.responses.parse.call_args.kwargs["temperature"], 0.2)
+
     async def test_jev_query_delegation(self):
         response = SystemOneResponse.model_validate(
             {
@@ -371,12 +382,14 @@ class EntrypointTests(unittest.IsolatedAsyncioTestCase):
         )
         sdk = NS(system_one=AsyncMock(return_value=response), aclose=AsyncMock())
         with patch.object(TypeSafeAIClient, "_build_client", return_value=sdk):
-            wrapper = LLMClient("jev-latest")
+            wrapper = LLMClient("jev-latest", temperature=0.2)
         async with wrapper:
             questions = {"urgent": Noul(instructions="Is this urgent?")}
             result = await wrapper.query(state="Help!", questions=questions)
             self.assertIs(result, response)
-            sdk.system_one.assert_awaited_once_with(
+            await wrapper.query(state="Help!", questions=questions, temperature=0.8)
+            self.assertEqual(sdk.system_one.await_count, 2)
+            sdk.system_one.assert_awaited_with(
                 state="Help!", questions=questions, model="jev-latest", timeout=None
             )
         sdk.aclose.assert_awaited_once()

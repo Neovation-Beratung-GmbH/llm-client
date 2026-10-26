@@ -49,28 +49,52 @@ client_classes: dict[str, type[Client]] = {
 
 
 class LLMClient:
-    def __init__(self, model_name: str, max_concurrency: int = 1) -> None:
+    def __init__(
+        self,
+        model_name: str,
+        max_concurrency: int = 1,
+        *,
+        temperature: float | None = None,
+    ) -> None:
         model_config = get_model_config(model_name)
         if model_config is None:
             raise ValueError(f"Unsupported model: {model_name}")
         provider = model_config.provider
         if provider not in client_classes:
             raise ValueError(f"Unsupported provider: {provider}")
+        self.temperature = temperature
         self._client: Client = client_classes[provider](
             model_name=model_name, max_concurrency=max_concurrency
         )
 
     @overload
     async def query[ResponseT: BaseModel](
-        self, *, text_format: type[ResponseT], **kwargs: Any
+        self,
+        *,
+        text_format: type[ResponseT],
+        temperature: float | None = None,
+        **kwargs: Any,
     ) -> ResponseT: ...
 
     @overload
-    async def query(self, *, text_format: None = None, **kwargs: Any) -> Any: ...
+    async def query(
+        self,
+        *,
+        text_format: None = None,
+        temperature: float | None = None,
+        **kwargs: Any,
+    ) -> Any: ...
 
     async def query(
-        self, *, text_format: type[BaseModel] | None = None, **kwargs: Any
+        self,
+        *,
+        text_format: type[BaseModel] | None = None,
+        temperature: float | None = None,
+        **kwargs: Any,
     ) -> Any:
+        effective_temperature = self.temperature if temperature is None else temperature
+        if effective_temperature is not None:
+            kwargs["temperature"] = effective_temperature
         return await self._client.query(text_format=text_format, **kwargs)
 
     @property

@@ -26,6 +26,10 @@ asyncio.run(main())
 `LLMClient` is the public entrypoint. It selects the provider from `model_name`
 and delegates queries, usage tracking, and cleanup to its provider client.
 It defaults to `max_concurrency=1`; queries are always asynchronous.
+Set a default sampling temperature with `LLMClient(model_name="gpt-4.1-mini", temperature=0.2)`.
+Override it for an individual call with `await client.query(prompt="...", temperature=0.8)`.
+When omitted, the provider's default applies. OpenAI reasoning models omit temperature;
+TypeSafe AI accepts it through the shared interface but ignores it when calling Jev.
 
 `Client` is the abstract base implemented by the provider classes. You can also
 instantiate a provider directly:

@@ -73,11 +73,13 @@ MODEL_CATALOG: dict[str, ModelConfig] = {
         provider="typesafeai",
         model_name="jev-latest",
         pricing=ModelPricing(input_per_1m=0.042, output_per_1m=0.0),
+        reasoning_model=False,
     ),
     "jev-1.14.0": ModelConfig(
         provider="typesafeai",
         model_name="jev-1.14.0",
         pricing=ModelPricing(input_per_1m=0.042, output_per_1m=0.0),
+        reasoning_model=False,
     ),
     "gpt-4.1-mini": ModelConfig(
         provider="openai",
