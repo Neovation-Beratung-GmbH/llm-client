@@ -14,7 +14,7 @@ class TypeSafeAIClient(Client):
 
     def _build_client(self) -> AsyncTypeSafeClient:
         return AsyncTypeSafeClient(
-            api_key=os.getenv("TYPESAFE_API_KEY"), model=self.model.model_name
+            api_key=os.getenv("TYPESAFEAI_API_KEY"), model=self.model.model_name
         )
 
     async def aclose(self) -> None:
