@@ -11,11 +11,15 @@ dependencies = [
     "anthropic>=1.4.0",
     "google-genai>=2.22.0",
     "openai>=1.0.0,<2.0.0",
+    "pydantic>=2.13.5",
+    "typesafe-sdk>=0.7.5",
 ]
-
-[project.scripts]
-llm-client = "llm_client:main"
 
 [build-system]
 requires = ["uv_build>=0.12.9,<0.13.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.2",
+]

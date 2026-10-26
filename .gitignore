@@ -1,6 +1,6 @@
 .env
 .venv
 venv
-/__pycache__/
-__pycache__/*.pyc
+__pycache__/
+*.py[cod]
 .python-version
